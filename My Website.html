@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BYTEWERK | Enterprise Odoo Architecture & DevOps</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React & ReactDOM CDNs -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <!-- Babel CDN for compiling JSX inline -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Inter & Mono Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .code-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+    </style>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            navy: '#0B1625',
+                            accent: '#3B82F6',
+                            accentHover: '#2563EB',
+                            lightBg: '#F8FAFC',
+                            cyber: '#10B981',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-brand-lightBg text-gray-800 antialiased selection:bg-brand-accent selection:text-white">
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Custom Secure Icon Loader Component
+        const Icon = ({ name, class: className = "w-5 h-5", ...props }) => {
+            return <i data-lucide={name} class={className} {...props}></i>;
+        };
+
+        const initialModules = [
+            {
+                id: 1,
+                title: "Odoo Core ERP Engine",
+                category: "Enterprise",
+                computeWeight: "Balanced",
+                description: "Integrated financials, double-entry inventory valuation, centralized CRM operations, and automated human resource routing matrices.",
+                badge: "v17 Shipped",
+                dbReq: "PostgreSQL Cluster"
+            },
+            {
+                id: 2,
+                title: "Automated Supply Chain",
+                category: "Logistics",
+                computeWeight: "High Throughput",
+                description: "Dynamic reordering rules, barcode integration profiles, multi-warehouse routing, and cross-docking logistics deployment paths.",
+                badge: "Real-time Sync",
+                dbReq: "PostgreSQL Dedicated"
+            },
+            {
+                id: 3,
+                title: "Custom Odoo API Gateway",
+                category: "DevOps",
+                computeWeight: "Low Latency",
+                description: "Bespoke REST/GraphQL infrastructure bridges binding custom e-commerce legacy apps securely into standard Odoo backend structures.",
+                badge: "Microservice",
+                dbReq: "Redis + Postgres"
+            }
+        ];
+
+        function App() {
+            const [selectedModule, setSelectedModule] = useState(null);
+            const [activeCategory, setActiveCategory] = useState('All');
+            const [userUserCount, setUserUserCount] = useState(25);
+            const [storageWeight, setStorageWeight] = useState(100);
+
+            useEffect(() => {
+                if (window.lucide) {
+                    window.lucide.createIcons();
+                }
+            }, [selectedModule, activeCategory, userUserCount, storageWeight]);
+
+            const filteredModules = initialModules.filter(m => {
+                return activeCategory === 'All' || m.category === activeCategory;
+            });
+
+            // Resource allocation math expressions
+            const calculatedRAM = Math.ceil((userUserCount * 0.15) + (storageWeight * 0.05) + 2);
+            const calculatedCPU = Math.ceil(calculatedRAM / 4);
+
+            return (
+                <div class="relative">
+                    
+                    {/* TOP ACTION BAR */}
+                    <header class="sticky top-0 z-40 bg-brand-navy/95 backdrop-blur-md border-b border-white/10 text-white transition-all">
+                        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <Icon name="terminal" class="h-8 w-8 text-brand-accent" />
+                                <div>
+                                    <span class="text-xl font-bold tracking-wider block leading-none code-font">BYTEWERK</span>
+                                    <span class="text-[10px] text-brand-cyber uppercase tracking-widest font-semibold">Odoo Systems Enclaves</span>
+                                </div>
+                            </div>
+                            <nav class="hidden md:flex space-x-8 text-sm font-medium tracking-wide">
+                                <a href="#stack" class="hover:text-brand-accent transition-colors">Infrastructure Stack</a>
+                                <a href="#calculator" class="hover:text-brand-accent transition-colors">Resource Calculator</a>
+                                <a href="#architecture" class="hover:text-brand-accent transition-colors">Architecture Registry</a>
+                                <a href="#contact" class="hover:text-brand-accent transition-colors">System Inquiry</a>
+                            </nav>
+                            <div>
+                                <a href="#contact" class="bg-brand-accent hover:bg-brand-accentHover text-white font-semibold px-5 py-2.5 rounded text-xs tracking-wider uppercase transition-all duration-300">
+                                    Initialize Infrastructure
+                                </a>
+                            </div>
+                        </div>
+                    </header>
+
+                    <!-- HERO PIPELINE FRAME -->
+                    <section class="relative min-h-[75vh] flex items-center justify-center overflow-hidden bg-brand-navy text-white">
+                        <div class="absolute inset-0 bg-[radial-gradient(#1E293B_1px,transparent_1px)] [background-size:24px_24px] opacity-30" />
+                        <div class="relative z-20 max-w-5xl mx-auto text-center px-4 sm:px-6 lg:px-8 py-12">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold tracking-widest uppercase bg-brand-accent/20 text-brand-accent border border-brand-accent/30 mb-6 code-font">
+                                <Icon name="cpu" class="w-3.5 h-3.5" /> High Performance Odoo Orchestration
+                            </span>
+                            <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight mb-6">
+                                Enterprise ERP Systems <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-cyan-400">Built to Perform</span>
+                            </h1>
+                            <p class="text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto mb-10 font-light">
+                                Transitioning legacy operations into highly available, cloud-native Odoo environments with clean modular container topologies.
+                            </p>
+                            
+                            <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+                                <a href="#stack" class="w-full sm:w-auto px-8 py-3.5 bg-brand-accent hover:bg-brand-accentHover text-white font-bold rounded transition-all text-center">
+                                    Explore Modules
+                                </a>
+                                <a href="#calculator" class="w-full sm:w-auto px-8 py-3.5 bg-white/5 hover:bg-white/10 text-white border border-white/10 font-bold rounded transition-all text-center">
+                                    Scale Infrastructure
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SYSTEM HIGHLIGHTS -->
+                    <section class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            {[
+                                { icon: "server", title: "Automated Deployments", desc: "Containerized Docker and Kubernetes topologies built for stateless scaling and rapid deployment rollbacks." },
+                                { icon: "database", title: "PostgreSQL Optimization", desc: "Custom connection pooling and tailored query caching architectures engineered for heavy multi-user concurrent read/writes." },
+                                { icon: "git-merge", title: "Clean Module Upgrades", desc: "Rigorous staging verification checks ensuring third-party application code variants never degrade the foundational system schema." }
+                            ].map((item, idx) => (
+                                <div key={idx} class="bg-white p-8 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300">
+                                    <div class="w-12 h-12 rounded-lg bg-brand-accent/5 flex items-center justify-center text-brand-accent mb-6">
+                                        <Icon name={item.icon} class="w-6 h-6" />
+                                    </div>
+                                    <h3 class="text-lg font-bold text-brand-navy mb-2">{item.title}</h3>
+                                    <p class="text-gray-500 text-sm leading-relaxed">{item.desc}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+
+                    <!-- DETAILED CALCULATOR COMPONENT -->
+                    <section id="calculator" class="py-20 bg-gray-50 border-y border-gray-200">
+                        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div class="text-center mb-12">
+                                <p class="text-brand-accent text-xs font-bold uppercase tracking-widest mb-2">Resource Planning</p>
+                                <h2 class="text-3xl font-bold text-brand-navy tracking-tight">Odoo Infrastructure Dimensioner</h2>
+                            </div>
+                            
+                            <div class="bg-white rounded-2xl shadow-xl border border-gray-200/60 p-6 sm:p-10 grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div class="space-y-6">
+                                    <div>
+                                        <label class="block text-xs font-bold uppercase text-gray-500 mb-2">Concurrent User Scope ({userUserCount} Users)</label>
+                                        <input 
+                                            type="range" min="5" max="500" step="5" 
+                                            value={userUserCount} 
+                                            onChange={(e) => setUserUserCount(Number(e.target.value))}
+                                            class="w-full accent-brand-accent"
+                                        />
+                                        <span class="text-xs text-gray-400 mt-1 block">Allocates transaction worker processes based on typical user behavior parameters.</span>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold uppercase text-gray-500 mb-2">Document Attachments Storage Target ({storageWeight} GB)</label>
+                                        <input 
+                                            type="range" min="10" max="2000" step="10" 
+                                            value={storageWeight} 
+                                            onChange={(e) => setStorageWeight(Number(e.target.value))}
+                                            class="w-full accent-brand-accent"
+                                        />
+                                        <span class="text-xs text-gray-400 mt-1 block">Calculates underlying storage volume array provisioning requirements.</span>
+                                    </div>
+                                </div>
+
+                                <div class="bg-brand-navy text-white p-6 rounded-xl flex flex-col justify-between border border-white/5">
+                                    <h3 class="text-xs font-bold tracking-widest text-brand-cyber uppercase mb-4">Recommended Server Topology</h3>
+                                    <div class="space-y-4">
+                                        <div class="flex justify-between border-b border-white/10 pb-2">
+                                            <span class="text-sm text-gray-400">Computed CPU Allocation:</span>
+                                            <span class="font-bold text-white code-font">{calculatedCPU} vCPU Cores</span>
+                                        </div>
+                                        <div class="flex justify-between border-b border-white/10 pb-2">
+                                            <span class="text-sm text-gray-400">Computed System Memory RAM:</span>
+                                            <span class="font-bold text-white code-font">{calculatedRAM} GB RAM</span>
+                                        </div>
+                                        <div class="flex justify-between pb-2">
+                                            <span class="text-sm text-gray-400">Target Disk IOPS Capacity:</span>
+                                            <span class="font-bold text-brand-accent code-font">3,000+ IOPS</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-[11px] text-gray-400 mt-6 pt-4 border-t border-white/10 italic">
+                                        Topology math calculates production requirements running high-density transactional environments.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- INTERACTIVE MODULE EXPLORER -->
+                    <section id="stack" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12">
+                            <div>
+                                <p class="text-brand-accent text-xs font-bold uppercase tracking-widest mb-2">Systems Architecture</p>
+                                <h2 class="text-3xl font-bold text-brand-navy tracking-tight">Verified Module Deployments</h2>
+                            </div>
+                            <div class="mt-4 md:mt-0 flex gap-2">
+                                {['All', 'Enterprise', 'Logistics', 'DevOps'].map((cat) => (
+                                    <button
+                                        key={cat}
+                                        onClick={() => setActiveCategory(cat)}
+                                        class={`px-4 py-2 rounded text-xs font-bold uppercase tracking-wider transition-all ${activeCategory === cat ? 'bg-brand-navy text-white' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'}`}
+                                    >
+                                        {cat}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            {filteredModules.map((mod) => (
+                                <div key={mod.id} class="bg-white rounded-xl border border-gray-200/80 p-6 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+                                    <div>
+                                        <div class="flex justify-between items-start mb-4">
+                                            <span class="bg-gray-100 text-gray-700 text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded">
+                                                {mod.category}
+                                            </span>
+                                            <span class="text-brand-cyber text-xs font-semibold code-font">{mod.badge}</span>
+                                        </div>
+                                        <h3 class="text-xl font-bold text-brand-navy group-hover:text-brand-accent transition-colors mb-2">{mod.title}</h3>
+                                        <p class="text-gray-500 text-sm leading-relaxed mb-4">{mod.description}</p>
+                                    </div>
+                                    <div class="pt-4 border-t border-gray-100 mt-4 flex items-center justify-between">
+                                        <span class="text-xs text-gray-400 code-font">{mod.dbReq}</span>
+                                        <button 
+                                            onClick={() => setSelectedModule(mod)}
+                                            class="text-xs font-bold uppercase tracking-wider text-brand-accent hover:text-brand-accentHover flex items-center gap-1"
+                                        >
+                                            Inspect Spec <Icon name="chevron-right" class="w-3.5 h-3.5" />
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+
+                    <!-- SPECIFICATIONS REGISTRY -->
+                    <section id="architecture" class="py-24 bg-brand-navy text-white">
+                        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                            <div>
+                                <p class="text-brand-accent text-xs font-bold uppercase tracking-widest mb-2">Systems Compliance</p>
+                                <h2 class="text-3xl sm:text-4xl font-bold tracking-tight mb-6">Engineered for Technical Transparency</h2>
+                                <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                                    Our delivery process maintains explicit isolation models, ensuring zero operational contamination between production database instances and staging playground pipelines.
+                                </p>
+                                <div class="space-y-4 text-sm">
+                                    <div class="flex items-center gap-3"><Icon name="shield" class="text-brand-cyber w-5 h-5" /> Isolated, encryption-at-rest volumes</div>
+                                    <div class="flex items-center gap-3"><Icon name="refresh-cw" class="text-brand-cyber w-5 h-5" /> Automated point-in-time recovery tracking</div>
+                                    <div class="flex items-center gap-3"><Icon name="sliders" class="text-brand-cyber w-5 h-5" /> Transparent performance profiling controls</div>
+                                </div>
+                            </div>
+                            <div class="bg-black/30 border border-white/10 p-6 rounded-xl code-font text-xs text-green-400 space-y-2 overflow-x-auto">
+                                <p class="text-gray-500"># Bytewerk Core Cluster Provisioning Stack</p>
+                                <p><span class="text-blue-400">version:</span> <span class="text-yellow-200">"3.8"</span></p>
+                                <p><span class="text-blue-400">services:</span></p>
+                                <p class="pl-4"><span class="text-blue-400">odoo-core:</span></p>
+                                <p class="pl-8"><span class="text-blue-400">image:</span> odoo:17.0</p>
+                                <p class="pl-8"><span class="text-blue-400">depends_on:</span> [db-cluster]</p>
+                                <p class="pl-8"><span class="text-blue-400">environment:</span></p>
+                                <p class="pl-12">- HOST=db-cluster</p>
+                                <p class="pl-12">- USER=odoo_admin</p>
+                                <p class="text-gray-500 pl-4"># Systems healthy. Ready to deploy.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- INPUT LEAD FORM -->
+                    <section id="contact" class="py-24 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="bg-white rounded-2xl shadow-xl border border-gray-200 p-8 sm:p-12">
+                            <div class="text-center mb-8">
+                                <h2 class="text-3xl font-bold text-brand-navy mb-2">Initiate System Design Context</h2>
+                                <p class="text-sm text-gray-500">Provide parameters to receive deployment pricing and tailored system maps.</p>
+                            </div>
+                            <form onSubmit={(e) => { e.preventDefault(); alert("System analysis payload successfully logged. Architect contact scheduled within 15 minutes."); }} class="space-y-5">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-bold uppercase text-gray-500 mb-1">Systems Engineer Name</label>
+                                        <input required type="text" class="w-full border border-gray-300 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-brand-accent" placeholder="e.g., Alex Carter" />
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold uppercase text-gray-500 mb-1">Secure Contact Wire</label>
+                                        <input required type="tel" class="w-full border border-gray-300 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-brand-accent" placeholder="Contact number" />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold uppercase text-gray-500 mb-1">Corporate Electronic Mail Address</label>
+                                    <input required type="email" class="w-full border border-gray-300 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-brand-accent" placeholder="engineer@company.com" />
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold uppercase text-gray-500 mb-1">Target Core Infrastructure Suite</label>
+                                    <select class="w-full border border-gray-300 rounded px-3 py-2.5 text-sm bg-white focus:outline-none focus:border-brand-accent">
+                                        <option>Bespoke Odoo Core ERP Architecture</option>
+                                        <option>High Throughput Logistics & Multi-Warehouse Routing</option>
+                                        <option>Low Latency Automated API Integrations</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="w-full bg-brand-accent hover:bg-brand-accentHover text-white font-bold py-3.5 rounded text-xs tracking-wider uppercase transition-all shadow-md">
+                                    Transmit Architecture Query
+                                </button>
+                            </form>
+                        </div>
+                    </section>
+
+                    <!-- SYSTEM FOOTER -->
+                    <footer class="bg-brand-navy text-gray-400 text-sm border-t border-white/10 pt-16 pb-8">
+                        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                            <div>
+                                <div class="flex items-center space-x-2 text-white mb-4">
+                                    <Icon name="terminal" class="h-6 w-6 text-brand-accent" />
+                                    <span class="text-lg font-bold tracking-wider code-font">BYTEWERK SYSTEMS</span>
+                                </div>
+                                <p class="text-xs leading-relaxed text-gray-400">
+                                    Assembling containerized open-source ERP systems designed for zero-downtime microservice orchestration frameworks.
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="text-white text-xs uppercase tracking-widest font-bold mb-4">Security Policies</h4>
+                                <p class="text-xs text-gray-500 leading-relaxed">
+                                    All instances are isolated within secure private networks with continuous encryption-at-rest configurations automatically active.
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="text-white text-xs uppercase tracking-widest font-bold mb-4">System Contact</h4>
+                                <div class="space-y-2 text-xs">
+                                    <div class="flex items-center gap-2"><Icon name="mail" class="w-3.5 h-3.5 text-brand-accent" /> ops@bytewerk.odoo.com</div>
+                                    <div class="flex items-center gap-2"><Icon name="shield-alert" class="w-3.5 h-3.5 text-brand-accent" /> security@bytewerk.org</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-white/5 pt-6 text-center text-xs text-gray-600 code-font">
+                            © 2026 Bytewerk Orchestration Records. Open Source Core Frameworks Maintained.
+                        </div>
+                    </footer>
+
+                    <!-- SPECIFICATIONS DETAILED MODAL INTERFACE -->
+                    {selectedModule && (
+                        <div class="fixed inset-0 z-50 overflow-y-auto bg-brand-navy/80 backdrop-blur-md flex items-center justify-center p-4">
+                            <div class="bg-white rounded-2xl max-w-2xl w-full overflow-hidden shadow-2xl border border-gray-100 flex flex-col">
+                                <div class="p-6 bg-brand-navy text-white flex justify-between items-center border-b border-white/10">
+                                    <div>
+                                        <span class="text-brand-cyber text-[10px] uppercase font-bold tracking-widest block">{selectedModule.category} Matrix</span>
+                                        <h3 class="text-2xl font-bold">{selectedModule.title}</h3>
+                                    </div>
+                                    <button 
+                                        onClick={() => setSelectedModule(null)}
+                                        class="text-gray-400 hover:text-white p-1 rounded-full bg-white/5 hover:bg-white/10 transition-all"
+                                    >
+                                        <Icon name="x" class="w-6 h-6" />
+                                    </button>
+                                </div>
+                                
+                                <div class="p-6 space-y-6 overflow-y-auto">
+                                    <div class="bg-gray-50 p-4 rounded-xl space-y-2 text-sm border border-gray-200">
+                                        <div class="flex justify-between"><span class="text-gray-400">Compute Weight:</span> <span class="font-bold text-brand-navy">{selectedModule.computeWeight}</span></div>
+                                        <div class="flex justify-between"><span class="text-gray-400">Database Requirements:</span> <span class="font-bold text-brand-navy code-font">{selectedModule.dbReq}</span></div>
+                                        <div class="flex justify-between"><span class="text-gray-400">Lifecycle State:</span> <span class="font-bold text-brand-cyber">{selectedModule.badge}</span></div>
+                                    </div>
+
+                                    <div>
+                                        <h4 class="text-xs font-bold uppercase text-gray-400 tracking-wider mb-2">Operational Pipeline Blueprint</h4>
+                                        <p class="text-sm text-gray-600 leading-relaxed">
+                                            {selectedModule.description}
+                                        </p>
+                                    </div>
+
+                                    <div class="bg-brand-navy p-4 rounded-xl text-center">
+                                        <h4 class="text-xs font-bold uppercase tracking-wider text-white mb-2">Simulate Integration Engine Sandbox</h4>
+                                        <button 
+                                            onClick={() => alert("Initializing test harness containers on sandbox framework...")}
+                                            class="bg-brand-accent hover:bg-brand-accentHover text-white text-xs uppercase font-bold py-2 px-4 rounded tracking-wide mx-auto"
+                                        >
+                                            Launch Component Mock Sandbox
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
